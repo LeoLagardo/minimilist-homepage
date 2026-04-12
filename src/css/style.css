@@ -270,8 +270,14 @@ body, html {
     pointer-events: none;
 }
 
-.dock {
+.dock-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     pointer-events: auto;
+}
+
+.dock {
     background: var(--glass-bg);
     backdrop-filter: blur(var(--blur-amount));
     -webkit-backdrop-filter: blur(var(--blur-amount));
@@ -283,6 +289,26 @@ body, html {
     align-items: center;
     max-width: 90%;
     overflow-x: auto;
+}
+
+.add-dock-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.add-dock-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
 }
 
 .dock::-webkit-scrollbar {
@@ -309,6 +335,28 @@ body, html {
     width: 32px;
     height: 32px;
     border-radius: 4px;
+}
+
+.dock-item-container:hover .remove-dock-item {
+    display: flex;
+}
+
+.remove-dock-item {
+    display: none;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
 }
 
 .settings-btn {

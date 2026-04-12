@@ -128,34 +128,76 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Load Bookmarks for Dock
+    // Manual Dock Bookmarks
     function loadDockBookmarks() {
         const dock = document.getElementById('dock');
-        chrome.bookmarks.getTree((itemTree) => {
-            dock.innerHTML = '';
-            // Usually bookmarks are in 'Bookmarks Bar' (often index 0 or 1 depending on browser/setup)
-            const bookmarksBar = itemTree[0].children.find(child => child.title === 'Bookmarks Bar' || child.id === '1');
-            const bookmarks = bookmarksBar ? bookmarksBar.children : [];
+        chrome.storage.local.get(['dockBookmarks'], (result) => {
+            const bookmarks = result.dockBookmarks || [];
+            renderDock(bookmarks);
+        });
+    }
 
-            bookmarks.forEach(bookmark => {
-                if (bookmark.url) {
-                    const item = document.createElement('a');
-                    item.href = bookmark.url;
-                    item.className = 'dock-item';
-                    item.title = bookmark.title;
+    function renderDock(bookmarks) {
+        const dock = document.getElementById('dock');
+        dock.innerHTML = '';
+        bookmarks.forEach((bookmark, index) => {
+            const item = document.createElement('div');
+            item.className = 'dock-item-container';
+            item.style.position = 'relative';
 
-                    const icon = document.createElement('img');
-                    icon.src = `chrome-extension://${chrome.runtime.id}/_favicon/?pageUrl=${encodeURIComponent(bookmark.url)}&size=32`;
-                    // Note: Manifest V3 favicons might need specific permission or different URL structure
-                    // Fallback to simple favicon service if needed
-                    icon.src = `https://www.google.com/s2/favicons?domain=${new URL(bookmark.url).hostname}&sz=32`;
+            const link = document.createElement('a');
+            link.href = bookmark.url;
+            link.className = 'dock-item';
+            link.title = bookmark.title || bookmark.url;
 
-                    item.appendChild(icon);
-                    dock.appendChild(item);
-                }
+            const icon = document.createElement('img');
+            const faviconUrl = new URL(`chrome-extension://${chrome.runtime.id}/_favicon/`);
+            faviconUrl.searchParams.set('pageUrl', bookmark.url);
+            faviconUrl.searchParams.set('size', '32');
+            icon.src = faviconUrl.toString();
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-dock-item';
+            removeBtn.textContent = '×';
+            removeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                removeDockBookmark(index);
+            });
+
+            link.appendChild(icon);
+            item.appendChild(link);
+            item.appendChild(removeBtn);
+            dock.appendChild(item);
+        });
+    }
+
+    function addDockBookmark(url, title) {
+        chrome.storage.local.get(['dockBookmarks'], (result) => {
+            const bookmarks = result.dockBookmarks || [];
+            bookmarks.push({ url, title });
+            chrome.storage.local.set({ dockBookmarks: bookmarks }, () => {
+                renderDock(bookmarks);
             });
         });
     }
+
+    function removeDockBookmark(index) {
+        chrome.storage.local.get(['dockBookmarks'], (result) => {
+            const bookmarks = result.dockBookmarks || [];
+            bookmarks.splice(index, 1);
+            chrome.storage.local.set({ dockBookmarks: bookmarks }, () => {
+                renderDock(bookmarks);
+            });
+        });
+    }
+
+    document.getElementById('addDockItem').addEventListener('click', () => {
+        const url = prompt("Enter bookmark URL:");
+        if (url) {
+            const title = prompt("Enter bookmark title (optional):") || "";
+            addDockBookmark(url, title);
+        }
+    });
 
     loadDockBookmarks();
 
