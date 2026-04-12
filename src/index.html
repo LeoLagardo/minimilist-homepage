@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app" class="dashboard">
+        <div class="background-container" id="backgroundContainer"></div>
+
+        <div class="settings-overlay" id="settingsOverlay" style="display: none;">
+            <div class="settings-panel glass">
+                <h3>Settings</h3>
+                <div class="setting-item">
+                    <label>Background Image</label>
+                    <input type="file" id="bgInput" accept="image/*">
+                </div>
+                <div class="setting-item">
+                    <label>Glass Intensity</label>
+                    <input type="range" id="glassIntensity" min="0" max="40" value="10">
+                </div>
+                <div class="setting-item">
+                    <label>Theme</label>
+                    <select id="themeSelect">
+                        <option value="auto">Auto</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Accent Color (Manual Override)</label>
+                    <input type="color" id="accentColorInput">
+                </div>
+                <button id="closeSettings">Close</button>
+            </div>
+        </div>
+
+        <button id="openSettings" class="settings-btn glass">⚙️</button>
+
+        <main class="main-content">
+            <aside class="column left-column" id="leftColumn">
+                <section class="widget draggable" id="todoWidget">
+                    <h3>To-Do</h3>
+                    <div class="widget-content">
+                        <div class="todo-input-container">
+                            <input type="text" id="todoInput" placeholder="Add task...">
+                            <button id="addTodo">+</button>
+                        </div>
+                        <ul id="todoList"></ul>
+                    </div>
+                </section>
+                <section class="widget draggable" id="calendarWidget">
+                    <h3>Calendar</h3>
+                    <div class="widget-content">
+                        <div class="calendar-header">
+                            <button id="prevMonth">&lt;</button>
+                            <span id="currentMonthYear"></span>
+                            <button id="nextMonth">&gt;</button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid"></div>
+                    </div>
+                </section>
+            </aside>
+
+            <section class="column center-area" id="centerArea">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search Google, bookmarks, history... (Cmd+K)" autocomplete="off">
+                    <div id="searchResults" class="glass search-results" style="display: none;"></div>
+                </div>
+                <div class="widget-grid" id="widgetGrid">
+                    <section class="widget draggable" id="weatherWidget">
+                        <h3>Weather</h3>
+                        <div class="widget-content" id="weatherContent">Loading...</div>
+                    </section>
+                    <section class="widget draggable" id="clockWidget">
+                        <h3>Clock</h3>
+                        <div class="widget-content" id="clockContent"></div>
+                    </section>
+                    <section class="widget draggable" id="notesWidget">
+                        <h3>Sticky Note</h3>
+                        <textarea id="stickyNote" placeholder="Type here..."></textarea>
+                    </section>
+                </div>
+            </section>
+
+            <aside class="column right-column" id="rightColumn">
+                <section class="widget draggable" id="mostVisitedWidget">
+                    <h3>Most Visited</h3>
+                    <div class="widget-content" id="mostVisitedContent">
+                        <!-- Most visited items -->
+                    </div>
+                </section>
+                <section class="widget draggable" id="recentBookmarksWidget">
+                    <h3>Recent Bookmarks</h3>
+                    <div class="widget-content" id="recentBookmarksContent">
+                        <!-- Recent bookmarks -->
+                    </div>
+                </section>
+            </aside>
+        </main>
+
+        <footer class="dock-container">
+            <div class="dock" id="dock">
+                <!-- Chrome Bookmarks -->
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

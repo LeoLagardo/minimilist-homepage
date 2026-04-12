@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Glassmorphism Dashboard",
+  "version": "1.0",
+  "description": "A highly customizable, glassmorphism-inspired new tab replacement.",
+  "permissions": [
+    "bookmarks",
+    "topSites",
+    "storage",
+    "identity",
+    "history",
+    "favicon"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "src/index.html"
+  },
+  "action": {
+    "default_popup": "src/popup.html"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "host_permissions": [
+    "https://www.googleapis.com/"
+  ]
+}
