@@ -14,9 +14,6 @@
   "chrome_url_overrides": {
     "newtab": "src/index.html"
   },
-  "action": {
-    "default_popup": "src/popup.html"
-  },
   "background": {
     "service_worker": "src/background.js"
   },
@@ -24,6 +21,7 @@
     "128": "icons/icon128.png"
   },
   "host_permissions": [
-    "https://www.googleapis.com/"
+    "https://www.googleapis.com/",
+    "https://api.open-meteo.com/"
   ]
 }
