@@ -227,8 +227,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const span = document.createElement('span');
             span.textContent = todo.text;
 
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-todo';
+            deleteBtn.textContent = '×';
+            deleteBtn.addEventListener('click', () => deleteTodo(index));
+
             li.appendChild(checkbox);
             li.appendChild(span);
+            li.appendChild(deleteBtn);
             todoList.appendChild(li);
         });
     }
@@ -251,6 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.sync.get(['todos'], (result) => {
             const todos = result.todos || [];
             todos[index].completed = !todos[index].completed;
+            chrome.storage.sync.set({ todos }, () => renderTodos(todos));
+        });
+    }
+
+    function deleteTodo(index) {
+        chrome.storage.sync.get(['todos'], (result) => {
+            const todos = result.todos || [];
+            todos.splice(index, 1);
             chrome.storage.sync.set({ todos }, () => renderTodos(todos));
         });
     }
@@ -506,6 +520,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadMostVisited();
     loadRecentBookmarks();
+
+    // Tab Groups Logic
+    function loadTabGroups() {
+        const container = document.getElementById('tabGroupsContent');
+        if (!chrome.tabGroups) {
+            container.textContent = "Tab groups not supported";
+            return;
+        }
+
+        chrome.tabGroups.query({}, (groups) => {
+            renderTabGroups(groups);
+        });
+    }
+
+    function renderTabGroups(groups) {
+        const container = document.getElementById('tabGroupsContent');
+        container.innerHTML = '';
+
+        if (groups.length === 0) {
+            container.textContent = "No active tab groups";
+            return;
+        }
+
+        groups.forEach(group => {
+            const item = document.createElement('div');
+            item.className = 'tab-group-item';
+
+            const colorCircle = document.createElement('div');
+            colorCircle.className = `group-color ${group.color}`;
+
+            const span = document.createElement('span');
+            span.textContent = group.title || `Group ${group.id}`;
+
+            item.appendChild(colorCircle);
+            item.appendChild(span);
+
+            item.addEventListener('click', () => {
+                chrome.tabs.query({ groupId: group.id }, (tabs) => {
+                    if (tabs.length > 0) {
+                        chrome.tabs.update(tabs[0].id, { active: true });
+                        chrome.windows.update(tabs[0].windowId, { focused: true });
+                    }
+                });
+            });
+
+            container.appendChild(item);
+        });
+    }
+
+    if (chrome.tabGroups) {
+        chrome.tabGroups.onCreated.addListener(loadTabGroups);
+        chrome.tabGroups.onRemoved.addListener(loadTabGroups);
+        chrome.tabGroups.onUpdated.addListener(loadTabGroups);
+        loadTabGroups();
+    }
 
     function getDragAfterElement(container, y) {
         const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
