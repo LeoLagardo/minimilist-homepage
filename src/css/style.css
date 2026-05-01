@@ -126,6 +126,26 @@ body, html {
     opacity: 0.6;
 }
 
+.todo-item .delete-todo {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+    padding: 0 5px;
+}
+
+.todo-item:hover .delete-todo {
+    opacity: 1;
+}
+
+.todo-item .delete-todo:hover {
+    color: #ff3b30;
+}
+
 /* Calendar Styles */
 .calendar-header {
     display: flex;
@@ -242,6 +262,38 @@ body, html {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Tab Groups Styles */
+.tab-group-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tab-group-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.group-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.group-color.grey { background-color: #5f6368; }
+.group-color.blue { background-color: #1a73e8; }
+.group-color.red { background-color: #d93025; }
+.group-color.yellow { background-color: #f29900; }
+.group-color.green { background-color: #188038; }
+.group-color.pink { background-color: #d01884; }
+.group-color.purple { background-color: #a142f4; }
+.group-color.cyan { background-color: #007b83; }
+.group-color.orange { background-color: #fa903e; }
 
 .search-container {
     margin-bottom: 20px;
