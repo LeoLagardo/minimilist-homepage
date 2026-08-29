@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Tab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,32 +15,172 @@
 
         <div class="settings-overlay" id="settingsOverlay" style="display: none;">
             <div class="settings-panel glass">
-                <h3>Settings</h3>
-                <div class="setting-item">
-                    <label>Background Image</label>
-                    <input type="file" id="bgInput" accept="image/*">
+                <div class="settings-header">
+                    <h3>Dashboard Settings</h3>
+                    <button id="closeSettings" class="close-btn">&times;</button>
                 </div>
-                <div class="setting-item">
-                    <label>Glass Intensity</label>
-                    <input type="range" id="glassIntensity" min="0" max="40" value="10">
+                
+                <div class="settings-scroll-area">
+                    <div class="settings-section">
+                        <h4>Personalization</h4>
+                        <div class="setting-item">
+                            <label for="userNameInput">Your Name</label>
+                            <input type="text" id="userNameInput" placeholder="Enter name...">
+                        </div>
+                        <div class="setting-item">
+                            <label for="clockFormatSelect">Clock Format</label>
+                            <select id="clockFormatSelect">
+                                <option value="12">12-Hour (AM/PM)</option>
+                                <option value="24">24-Hour</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h4>Theme & Appearance</h4>
+                        
+                        <div class="setting-item">
+                            <label>Preset Themes</label>
+                            <div class="theme-presets-grid" id="themePresetsGrid">
+                                <div class="theme-card active" data-theme-id="aero-glass" title="Aero Glass">
+                                    <div class="theme-card-preview aero-glass-preview">
+                                        <span class="theme-accent-badge" style="background-color: #007aff;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Aero Glass</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="cyberpunk" title="Cyberpunk Neon">
+                                    <div class="theme-card-preview cyberpunk-preview">
+                                        <span class="theme-accent-badge" style="background-color: #00f3ff;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Cyberpunk</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="sunset-aurora" title="Sunset Aurora">
+                                    <div class="theme-card-preview sunset-aurora-preview">
+                                        <span class="theme-accent-badge" style="background-color: #ff6b6b;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Sunset</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="midnight-nebula" title="Midnight Nebula">
+                                    <div class="theme-card-preview midnight-nebula-preview">
+                                        <span class="theme-accent-badge" style="background-color: #a855f7;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Midnight</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="emerald-forest" title="Emerald Forest">
+                                    <div class="theme-card-preview emerald-forest-preview">
+                                        <span class="theme-accent-badge" style="background-color: #10b981;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Emerald</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="oled-dark" title="OLED Pure Dark">
+                                    <div class="theme-card-preview oled-dark-preview">
+                                        <span class="theme-accent-badge" style="background-color: #38bdf8;"></span>
+                                    </div>
+                                    <span class="theme-card-label">OLED Dark</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="frosted-light" title="Frosted Daylight">
+                                    <div class="theme-card-preview frosted-light-preview">
+                                        <span class="theme-accent-badge" style="background-color: #0284c7;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Daylight</span>
+                                </div>
+                                <div class="theme-card" data-theme-id="synthwave" title="Retro Synthwave">
+                                    <div class="theme-card-preview synthwave-preview">
+                                        <span class="theme-accent-badge" style="background-color: #ec4899;"></span>
+                                    </div>
+                                    <span class="theme-card-label">Synthwave</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="themeSelect">Theme Dropdown</label>
+                            <select id="themeSelect">
+                                <option value="aero-glass">Aero Glass (Default)</option>
+                                <option value="cyberpunk">Cyberpunk Neon</option>
+                                <option value="sunset-aurora">Sunset Aurora</option>
+                                <option value="midnight-nebula">Midnight Nebula</option>
+                                <option value="emerald-forest">Emerald Forest</option>
+                                <option value="oled-dark">OLED Pure Dark</option>
+                                <option value="frosted-light">Frosted Daylight</option>
+                                <option value="synthwave">Retro Synthwave</option>
+                                <option value="dark">Dark (Legacy)</option>
+                                <option value="light">Light (Legacy)</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="bgInput">Custom Wallpaper</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="bgInput" accept="image/*">
+                                <button type="button" id="resetBgBtn" class="secondary-btn" title="Reset to theme preset wallpaper">Use Theme Wallpaper</button>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="glassIntensity">Glass Intensity</label>
+                            <input type="range" id="glassIntensity" min="0" max="40" value="12">
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-header-row">
+                                <label for="accentColorInput">Accent Color</label>
+                                <button type="button" id="resetAccentBtn" class="link-btn" title="Reset to preset accent color">Reset to Preset</button>
+                            </div>
+                            <input type="color" id="accentColorInput" value="#007aff">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h4>Widget Visibility</h4>
+                        <div class="widget-toggles-grid">
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_greeting" checked>
+                                <span>Live Greeting</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_clockWidget" checked>
+                                <span>Clock</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_weatherWidget" checked>
+                                <span>Weather</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_todoWidget" checked>
+                                <span>To-Do List</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_calendarWidget" checked>
+                                <span>Calendar</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_notesWidget" checked>
+                                <span>Scratchpad</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_quoteWidget" checked>
+                                <span>Daily Quote</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_mostVisitedWidget" checked>
+                                <span>Most Visited</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_recentBookmarksWidget" checked>
+                                <span>Recent Bookmarks</span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="checkbox" id="toggle_tabGroupsWidget" checked>
+                                <span>Tab Groups</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="setting-item">
-                    <label>Theme</label>
-                    <select id="themeSelect">
-                        <option value="auto">Auto</option>
-                        <option value="light">Light</option>
-                        <option value="dark">Dark</option>
-                    </select>
-                </div>
-                <div class="setting-item">
-                    <label>Accent Color (Manual Override)</label>
-                    <input type="color" id="accentColorInput">
-                </div>
-                <button id="closeSettings">Close</button>
             </div>
         </div>
 
-        <button id="openSettings" class="settings-btn glass">⚙️</button>
+        <button id="openSettings" class="settings-btn glass" title="Settings">⚙️</button>
 
         <main class="main-content">
             <aside class="column left-column" id="leftColumn">
@@ -65,10 +208,15 @@
             </aside>
 
             <section class="column center-area" id="centerArea">
+                <div class="greeting-container" id="greetingContainer">
+                    <h1 id="greetingText" class="greeting-text">Good day</h1>
+                </div>
+
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search Google, bookmarks, history... (Cmd+K)" autocomplete="off">
                     <div id="searchResults" class="glass search-results" style="display: none;"></div>
                 </div>
+                
                 <div class="widget-grid" id="widgetGrid">
                     <section class="widget draggable" id="weatherWidget">
                         <h3>Weather</h3>
@@ -79,8 +227,28 @@
                         <div class="widget-content" id="clockContent"></div>
                     </section>
                     <section class="widget draggable" id="notesWidget">
-                        <h3>Sticky Note</h3>
-                        <textarea id="stickyNote" placeholder="Type here..."></textarea>
+                        <div class="notes-header">
+                            <h3>Scratchpad</h3>
+                            <div class="notes-actions">
+                                <button id="toggleMarkdownBtn" class="notes-icon-btn" title="Toggle Markdown Preview">👁️</button>
+                                <button id="addNoteBtn" class="notes-icon-btn" title="New Note">+</button>
+                            </div>
+                        </div>
+                        <div class="notes-tabs" id="notesTabs"></div>
+                        <div class="widget-content notes-body">
+                            <textarea id="stickyNote" placeholder="Type note (Markdown supported)..."></textarea>
+                            <div id="notePreview" class="note-preview" style="display: none;"></div>
+                        </div>
+                    </section>
+                    <section class="widget draggable" id="quoteWidget">
+                        <div class="widget-header-row">
+                            <h3>Daily Inspiration</h3>
+                            <button id="refreshQuote" class="icon-action-btn" title="Shuffle Quote">🔄</button>
+                        </div>
+                        <div class="widget-content quote-content">
+                            <p id="quoteText" class="quote-text">"Believe you can and you're halfway there."</p>
+                            <span id="quoteAuthor" class="quote-author">- Theodore Roosevelt</span>
+                        </div>
                     </section>
                 </div>
             </section>
@@ -101,7 +269,8 @@
                 <section class="widget draggable" id="tabGroupsWidget">
                     <h3>Tab Groups</h3>
                     <div class="widget-content" id="tabGroupsContent">
-                        <!-- Tab groups -->
+                        <button id="addTabGroupBtn" class="add-group-btn">+ Add Group</button>
+                        <div id="tabGroupsList" class="tab-groups-list"></div>
                     </div>
                 </section>
             </aside>
@@ -117,6 +286,7 @@
         </footer>
     </div>
 
+    <script src="js/quotes.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
